@@ -6,12 +6,17 @@
    overflow: hidden;
  }
  
- .content {
-   margin-left: 65px;
-   height: 100vh;
-   position: relative;
-   overflow: hidden;
- }
+.content {
+  margin-left: 65px;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  transition: margin-left 0.24s ease;
+}
+
+body.sidebar-auto-hide .content {
+  margin-left: 5px;
+}
  
  #frame {
    width: 100%;

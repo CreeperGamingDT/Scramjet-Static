@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const whatsNewBtn = document.querySelector(".whatsnew-btn");
   const settingsBtn = document.querySelector(".settings-btn");
   const extrasBtn = document.querySelector(".extras-btn");
+  const sidebarToggleBtn = document.querySelector(".sidebar-toggle-btn");
   const frame = document.getElementById("frame");
+  const SIDEBAR_AUTO_HIDE_CLASS = 'sidebar-auto-hide';
 
   // credits to gn-math!!!
   const htmlURL = "https://cdn.jsdelivr.net/gh/gn-math/html@main";
@@ -34,6 +36,17 @@ document.addEventListener('DOMContentLoaded', () => {
       clearTimeout(timeout);
       timeout = setTimeout(() => func.apply(this, args), delay);
     };
+  }
+
+  function setSidebarAutoHide(enabled) {
+    document.body.classList.toggle(SIDEBAR_AUTO_HIDE_CLASS, enabled);
+    if (!sidebarToggleBtn) return;
+
+    const label = enabled ? 'Disable sidebar auto-hide' : 'Enable sidebar auto-hide';
+    sidebarToggleBtn.classList.toggle('is-toggled', enabled);
+    sidebarToggleBtn.setAttribute('title', label);
+    sidebarToggleBtn.setAttribute('aria-label', label);
+    sidebarToggleBtn.setAttribute('aria-pressed', String(enabled));
   }
 
   allPanels.forEach(panel => {
@@ -452,6 +465,10 @@ document.addEventListener('DOMContentLoaded', () => {
   whatsNewBtn.onclick = () => {
     showModal();
   };
+  sidebarToggleBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    setSidebarAutoHide(!document.body.classList.contains(SIDEBAR_AUTO_HIDE_CLASS));
+  });
   extrasBtn.onclick = () => {
     const isActive = extrasNavContainer.classList.contains('active');
     mainNavContainer.classList.toggle('extras-active', !isActive);
@@ -487,6 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   populateNav(mainNavContainer.querySelector('.nav-item-list'), navItems, true);
   populateNav(extrasNavContainer.querySelector('.nav-item-list'), extraNavItems, true);
+  setSidebarAutoHide(false);
   precacheZones();
   precachePlaylineGames();
 
